@@ -1,0 +1,23 @@
+generated: '2026-07-11'
+method: derived
+source: openapi/trint-openapi.yml
+summary:
+  types:
+  - http
+  - apiKey
+schemes:
+- name: basicAuth
+  type: http
+  scheme: basic
+  sources:
+  - openapi/trint-openapi.yml
+  notes: >-
+    Recommended. HTTP Basic using the API Key ID as username and API Key Secret
+    as password, Base64-encoded in the Authorization header.
+- name: legacyApiKey
+  type: apiKey
+  in: header
+  keyName: api-key
+  sources:
+  - openapi/trint-openapi.yml
+  notes: Legacy authentication - the legacy key value is sent in the api-key header.

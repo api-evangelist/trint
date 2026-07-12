@@ -1,0 +1,246 @@
+{
+  "info": {
+    "name": "Trint API",
+    "description": "AI audio/video transcription platform API. Base URL https://api.trint.com (US) or https://api.eu.trint.com (EU Enterprise). Direct media uploads go to https://upload.trint.com. Auth is HTTP Basic (API Key ID as username, API Key Secret as password) or a legacy api-key header. GET /transcripts/ and the upload host are confirmed against dev.trint.com; some export/translation/realtime paths are honestly modeled from Trint's documented capability index.",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "auth": {
+    "type": "basic",
+    "basic": [
+      { "key": "username", "value": "{{apiKeyId}}", "type": "string" },
+      { "key": "password", "value": "{{apiKeySecret}}", "type": "string" }
+    ]
+  },
+  "variable": [
+    { "key": "baseUrl", "value": "https://api.trint.com", "type": "string" },
+    { "key": "uploadUrl", "value": "https://upload.trint.com", "type": "string" },
+    { "key": "apiKeyId", "value": "", "type": "string" },
+    { "key": "apiKeySecret", "value": "", "type": "string" }
+  ],
+  "item": [
+    {
+      "name": "Upload and Transcribe",
+      "item": [
+        {
+          "name": "Upload and transcribe a media file",
+          "request": {
+            "method": "POST",
+            "header": [{ "key": "Content-Type", "value": "application/octet-stream" }],
+            "body": { "mode": "file", "file": { "src": "/path/to/media.mp4" } },
+            "url": {
+              "raw": "{{uploadUrl}}/?filename=media.mp4&language=en&detect-speaker-change=true",
+              "host": ["{{uploadUrl}}"],
+              "path": [""],
+              "query": [
+                { "key": "filename", "value": "media.mp4" },
+                { "key": "language", "value": "en" },
+                { "key": "detect-speaker-change", "value": "true" }
+              ]
+            },
+            "description": "Confirmed. POST binary media to https://upload.trint.com to start transcription."
+          }
+        },
+        {
+          "name": "Ingest media from a source URL",
+          "request": {
+            "method": "POST",
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "body": { "mode": "raw", "raw": "{\n  \"url\": \"https://example.com/media.mp4\",\n  \"filename\": \"media.mp4\",\n  \"language\": \"en\"\n}" },
+            "url": { "raw": "{{baseUrl}}/ingest", "host": ["{{baseUrl}}"], "path": ["ingest"] },
+            "description": "Modeled. Asynchronous ingestion from a source URL."
+          }
+        },
+        {
+          "name": "Get ingestion status",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": { "raw": "{{baseUrl}}/ingest/status?limit=100&skip=0", "host": ["{{baseUrl}}"], "path": ["ingest", "status"], "query": [{ "key": "limit", "value": "100" }, { "key": "skip", "value": "0" }] },
+            "description": "Modeled. Paginated uploads or aggregate summary per status."
+          }
+        }
+      ]
+    },
+    {
+      "name": "Transcripts and Files",
+      "item": [
+        {
+          "name": "List transcripts (files)",
+          "request": {
+            "method": "GET",
+            "header": [{ "key": "accept", "value": "application/json" }],
+            "url": { "raw": "{{baseUrl}}/transcripts/?limit=100&skip=0", "host": ["{{baseUrl}}"], "path": ["transcripts", ""], "query": [{ "key": "limit", "value": "100" }, { "key": "skip", "value": "0" }] },
+            "description": "Confirmed. Returns files for the user or a shared drive."
+          }
+        },
+        {
+          "name": "Retrieve a transcript",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": { "raw": "{{baseUrl}}/transcripts/:id", "host": ["{{baseUrl}}"], "path": ["transcripts", ":id"], "variable": [{ "key": "id", "value": "" }] },
+            "description": "Modeled. Retrieve a single transcript by ID."
+          }
+        },
+        {
+          "name": "List folders",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": { "raw": "{{baseUrl}}/folders", "host": ["{{baseUrl}}"], "path": ["folders"] },
+            "description": "Modeled."
+          }
+        },
+        {
+          "name": "Create a folder",
+          "request": {
+            "method": "POST",
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "body": { "mode": "raw", "raw": "{\n  \"name\": \"My Folder\"\n}" },
+            "url": { "raw": "{{baseUrl}}/folders", "host": ["{{baseUrl}}"], "path": ["folders"] },
+            "description": "Modeled."
+          }
+        },
+        {
+          "name": "List shared drives",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": { "raw": "{{baseUrl}}/shared-drives", "host": ["{{baseUrl}}"], "path": ["shared-drives"] },
+            "description": "Modeled."
+          }
+        }
+      ]
+    },
+    {
+      "name": "Export",
+      "item": [
+        {
+          "name": "Export a transcript",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": { "raw": "{{baseUrl}}/export/:id?format=srt", "host": ["{{baseUrl}}"], "path": ["export", ":id"], "query": [{ "key": "format", "value": "srt" }], "variable": [{ "key": "id", "value": "" }] },
+            "description": "Modeled path; formats confirmed: json, text, csv, docx, srt, edl, premiere-xml."
+          }
+        },
+        {
+          "name": "Get captions",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": { "raw": "{{baseUrl}}/captions/:id", "host": ["{{baseUrl}}"], "path": ["captions", ":id"], "variable": [{ "key": "id", "value": "" }] },
+            "description": "Modeled."
+          }
+        }
+      ]
+    },
+    {
+      "name": "Translations",
+      "item": [
+        {
+          "name": "List translation languages",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": { "raw": "{{baseUrl}}/translation-languages", "host": ["{{baseUrl}}"], "path": ["translation-languages"] },
+            "description": "Modeled."
+          }
+        },
+        {
+          "name": "Create a translation",
+          "request": {
+            "method": "POST",
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "body": { "mode": "raw", "raw": "{\n  \"fileId\": \"\",\n  \"language\": \"es\"\n}" },
+            "url": { "raw": "{{baseUrl}}/translations", "host": ["{{baseUrl}}"], "path": ["translations"] },
+            "description": "Modeled."
+          }
+        },
+        {
+          "name": "Get translations for a transcript",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": { "raw": "{{baseUrl}}/translations/:fileId", "host": ["{{baseUrl}}"], "path": ["translations", ":fileId"], "variable": [{ "key": "fileId", "value": "" }] },
+            "description": "Modeled."
+          }
+        }
+      ]
+    },
+    {
+      "name": "Realtime",
+      "item": [
+        {
+          "name": "Create a realtime RTMP stream",
+          "request": {
+            "method": "POST",
+            "header": [],
+            "url": { "raw": "{{baseUrl}}/realtime/stream", "host": ["{{baseUrl}}"], "path": ["realtime", "stream"] },
+            "description": "Modeled. Generates an RTMP stream key/URL. Realtime ingest is RTMP, not WebSocket."
+          }
+        },
+        {
+          "name": "Start realtime transcription",
+          "request": {
+            "method": "POST",
+            "header": [],
+            "url": { "raw": "{{baseUrl}}/realtime/:id/start", "host": ["{{baseUrl}}"], "path": ["realtime", ":id", "start"], "variable": [{ "key": "id", "value": "" }] },
+            "description": "Modeled."
+          }
+        },
+        {
+          "name": "Stop realtime transcription",
+          "request": {
+            "method": "POST",
+            "header": [],
+            "url": { "raw": "{{baseUrl}}/realtime/:id/stop", "host": ["{{baseUrl}}"], "path": ["realtime", ":id", "stop"], "variable": [{ "key": "id", "value": "" }] },
+            "description": "Modeled."
+          }
+        },
+        {
+          "name": "Get realtime status",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": { "raw": "{{baseUrl}}/realtime/:id/status", "host": ["{{baseUrl}}"], "path": ["realtime", ":id", "status"], "variable": [{ "key": "id", "value": "" }] },
+            "description": "Modeled."
+          }
+        }
+      ]
+    },
+    {
+      "name": "Webhooks",
+      "item": [
+        {
+          "name": "Register a webhook",
+          "request": {
+            "method": "POST",
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "body": { "mode": "raw", "raw": "{\n  \"url\": \"https://example.com/trint-webhook\",\n  \"events\": [\"TRANSCRIPT_COMPLETE\"]\n}" },
+            "url": { "raw": "{{baseUrl}}/webhooks/register", "host": ["{{baseUrl}}"], "path": ["webhooks", "register"] },
+            "description": "Trint POSTs events to your URL. Not a WebSocket."
+          }
+        },
+        {
+          "name": "De-register a webhook",
+          "request": {
+            "method": "DELETE",
+            "header": [],
+            "url": { "raw": "{{baseUrl}}/webhooks/:id", "host": ["{{baseUrl}}"], "path": ["webhooks", ":id"], "variable": [{ "key": "id", "value": "" }] },
+            "description": "Modeled."
+          }
+        },
+        {
+          "name": "List webhook event types",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": { "raw": "{{baseUrl}}/webhook-events", "host": ["{{baseUrl}}"], "path": ["webhook-events"] },
+            "description": "Event types: ACTIVITY_STARTED, MEDIA_TRANSFER_COMPLETE, MEDIA_TRANSFER_FAILED, TRANSCRIPT_COMPLETE, TRANSCRIPT_FAILED."
+          }
+        }
+      ]
+    }
+  ]
+}

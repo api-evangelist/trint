@@ -1,0 +1,186 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Trint API",
+    "version": "1.0"
+  },
+  "request": {
+    "auth": {
+      "type": "basic",
+      "username": "{{apiKeyId}}",
+      "password": "{{apiKeySecret}}"
+    }
+  },
+  "items": [
+    {
+      "info": { "name": "Upload and Transcribe", "type": "folder" },
+      "items": [
+        {
+          "info": { "name": "Upload and transcribe a media file.", "type": "http" },
+          "http": {
+            "method": "POST",
+            "url": "https://upload.trint.com/?filename=media.mp4&language=en&detect-speaker-change=true",
+            "body": { "type": "binary", "data": "" }
+          },
+          "docs": "Confirmed. POST binary media to https://upload.trint.com to start transcription."
+        },
+        {
+          "info": { "name": "Ingest media from a source URL.", "type": "http" },
+          "http": {
+            "method": "POST",
+            "url": "https://api.trint.com/ingest",
+            "body": { "type": "json", "data": "{}" }
+          },
+          "docs": "Modeled. Asynchronous ingestion from a source URL."
+        },
+        {
+          "info": { "name": "Get ingestion status.", "type": "http" },
+          "http": { "method": "GET", "url": "https://api.trint.com/ingest/status?limit=100&skip=0" },
+          "docs": "Modeled. Paginated uploads or aggregate summary per status."
+        }
+      ]
+    },
+    {
+      "info": { "name": "Transcripts and Files", "type": "folder" },
+      "items": [
+        {
+          "info": { "name": "List transcripts (files).", "type": "http" },
+          "http": { "method": "GET", "url": "https://api.trint.com/transcripts/?limit=100&skip=0" },
+          "docs": "Confirmed. Returns files for the user or a shared drive."
+        },
+        {
+          "info": { "name": "Retrieve a transcript.", "type": "http" },
+          "http": {
+            "method": "GET",
+            "url": "https://api.trint.com/transcripts/:id",
+            "params": [{ "name": "id", "value": "", "type": "path", "description": "The transcript ID." }]
+          },
+          "docs": "Modeled."
+        },
+        {
+          "info": { "name": "List folders.", "type": "http" },
+          "http": { "method": "GET", "url": "https://api.trint.com/folders" },
+          "docs": "Modeled."
+        },
+        {
+          "info": { "name": "Create a folder.", "type": "http" },
+          "http": { "method": "POST", "url": "https://api.trint.com/folders", "body": { "type": "json", "data": "{}" } },
+          "docs": "Modeled."
+        },
+        {
+          "info": { "name": "List shared drives.", "type": "http" },
+          "http": { "method": "GET", "url": "https://api.trint.com/shared-drives" },
+          "docs": "Modeled."
+        }
+      ]
+    },
+    {
+      "info": { "name": "Export", "type": "folder" },
+      "items": [
+        {
+          "info": { "name": "Export a transcript.", "type": "http" },
+          "http": {
+            "method": "GET",
+            "url": "https://api.trint.com/export/:id?format=srt",
+            "params": [{ "name": "id", "value": "", "type": "path", "description": "The transcript ID." }]
+          },
+          "docs": "Modeled path; formats confirmed: json, text, csv, docx, srt, edl, premiere-xml."
+        },
+        {
+          "info": { "name": "Get captions.", "type": "http" },
+          "http": {
+            "method": "GET",
+            "url": "https://api.trint.com/captions/:id",
+            "params": [{ "name": "id", "value": "", "type": "path", "description": "The transcript ID." }]
+          },
+          "docs": "Modeled."
+        }
+      ]
+    },
+    {
+      "info": { "name": "Translations", "type": "folder" },
+      "items": [
+        {
+          "info": { "name": "List translation languages.", "type": "http" },
+          "http": { "method": "GET", "url": "https://api.trint.com/translation-languages" },
+          "docs": "Modeled."
+        },
+        {
+          "info": { "name": "Create a translation.", "type": "http" },
+          "http": { "method": "POST", "url": "https://api.trint.com/translations", "body": { "type": "json", "data": "{}" } },
+          "docs": "Modeled."
+        },
+        {
+          "info": { "name": "Get translations for a transcript.", "type": "http" },
+          "http": {
+            "method": "GET",
+            "url": "https://api.trint.com/translations/:fileId",
+            "params": [{ "name": "fileId", "value": "", "type": "path", "description": "The transcript ID." }]
+          },
+          "docs": "Modeled."
+        }
+      ]
+    },
+    {
+      "info": { "name": "Realtime", "type": "folder" },
+      "items": [
+        {
+          "info": { "name": "Create a realtime RTMP stream.", "type": "http" },
+          "http": { "method": "POST", "url": "https://api.trint.com/realtime/stream" },
+          "docs": "Modeled. Generates an RTMP stream key/URL. Realtime ingest is RTMP, not WebSocket."
+        },
+        {
+          "info": { "name": "Start realtime transcription.", "type": "http" },
+          "http": {
+            "method": "POST",
+            "url": "https://api.trint.com/realtime/:id/start",
+            "params": [{ "name": "id", "value": "", "type": "path" }]
+          },
+          "docs": "Modeled."
+        },
+        {
+          "info": { "name": "Stop realtime transcription.", "type": "http" },
+          "http": {
+            "method": "POST",
+            "url": "https://api.trint.com/realtime/:id/stop",
+            "params": [{ "name": "id", "value": "", "type": "path" }]
+          },
+          "docs": "Modeled."
+        },
+        {
+          "info": { "name": "Get realtime status.", "type": "http" },
+          "http": {
+            "method": "GET",
+            "url": "https://api.trint.com/realtime/:id/status",
+            "params": [{ "name": "id", "value": "", "type": "path" }]
+          },
+          "docs": "Modeled."
+        }
+      ]
+    },
+    {
+      "info": { "name": "Webhooks", "type": "folder" },
+      "items": [
+        {
+          "info": { "name": "Register a webhook.", "type": "http" },
+          "http": { "method": "POST", "url": "https://api.trint.com/webhooks/register", "body": { "type": "json", "data": "{}" } },
+          "docs": "Trint POSTs events to your URL. Not a WebSocket."
+        },
+        {
+          "info": { "name": "De-register a webhook.", "type": "http" },
+          "http": {
+            "method": "DELETE",
+            "url": "https://api.trint.com/webhooks/:id",
+            "params": [{ "name": "id", "value": "", "type": "path" }]
+          },
+          "docs": "Modeled."
+        },
+        {
+          "info": { "name": "List webhook event types.", "type": "http" },
+          "http": { "method": "GET", "url": "https://api.trint.com/webhook-events" },
+          "docs": "Event types: ACTIVITY_STARTED, MEDIA_TRANSFER_COMPLETE, MEDIA_TRANSFER_FAILED, TRANSCRIPT_COMPLETE, TRANSCRIPT_FAILED."
+        }
+      ]
+    }
+  ]
+}

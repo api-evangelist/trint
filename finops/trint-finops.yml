@@ -1,0 +1,92 @@
+specification: FinOps Framework
+specificationVersion: '1.0'
+schema: https://www.finops.org/framework/
+provider: Trint
+providerId: trint
+created: '2026-07-11'
+modified: '2026-07-11'
+reconciled: false
+tags:
+- Audio Transcription
+- Transcription
+- Speech-to-Text
+- Media
+- FinOps
+- Cost Management
+- FOCUS
+description: >-
+  FinOps view of Trint spend. Trint is billed as a per-seat SaaS subscription
+  (Starter, Advanced, Enterprise), typically on annual terms, rather than as
+  metered pay-per-minute API usage. Cost is therefore driven primarily by the
+  number of seats and the plan tier, plus the Starter monthly file cap. API
+  access is bundled into the subscription (plan-dependent, with Enterprise
+  recommended for heavy usage) rather than invoiced as a separate per-request
+  line item.
+notes: >-
+  Per-seat list rates are approximate and reported by third-party reviews;
+  verify on app.trint.com/plans. The dominant cost lever is seat count and tier
+  selection, and - on Starter - staying within the monthly file cap. There is no
+  documented per-minute or per-request API meter to reconcile.
+sources:
+- https://trint.com/
+- https://app.trint.com/plans
+- https://dev.trint.com/docs/pricing
+- https://focus.finops.org/focus-specification/v1-3/
+alignedWith:
+  framework: FinOps Foundation Framework
+  frameworkUrl: https://www.finops.org/framework/
+  dataSpec: FOCUS
+  dataSpecVersion: '1.3'
+  dataSpecUrl: https://focus.finops.org/focus-specification/v1-3/
+publisherName: Trint
+serviceCategory: AI and Machine Learning
+billingModel:
+  pricingCategory: Subscription
+  billingFrequency: Annual
+  billingCurrency: USD
+  chargeCategories:
+  - Purchase
+  - Usage
+focusColumns:
+  ServiceName: Trint
+  ServiceCategory: AI and Machine Learning
+  ProviderName: Trint
+  PublisherName: Trint
+  InvoiceIssuerName: Trint
+  BillingCurrency: USD
+  ChargeCategory: Purchase
+  PricingCategory: Subscription
+meters:
+- name: seats
+  description: Number of licensed per-seat subscriptions on the account.
+  unit: seats
+  aggregation: sum
+  dimensions:
+  - account
+  - plan
+- name: files_transcribed
+  description: Media files submitted for transcription; capped monthly on the Starter tier.
+  unit: files
+  aggregation: sum
+  dimensions:
+  - account
+  - user
+- name: minutes_transcribed
+  description: Minutes of audio/video transcribed; a useful internal utilization meter even though Trint bills per seat, not per minute.
+  unit: minutes
+  aggregation: sum
+  dimensions:
+  - account
+  - user
+principles:
+- name: Visibility
+  description: Track seats, tier, and files/minutes transcribed per user so subscription cost maps to actual usage.
+- name: Allocation
+  description: Assign seats and shared drives per team so subscription spend maps to cost centers.
+- name: Optimization
+  description: Right-size seat counts and tiers; keep Starter users within the monthly file cap; move heavy API workloads to Enterprise where API access is intended.
+- name: Accountability
+  description: Assign an owner per workspace and review seat utilization against the annual commitment.
+maintainers:
+- FN: Kin Lane
+  email: kin@apievangelist.com

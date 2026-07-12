@@ -1,0 +1,64 @@
+specification: API Commons Rate Limits
+specificationVersion: '0.1'
+schema: https://raw.githubusercontent.com/api-evangelist/interface-research/main/schema/api-commons.yml#/$defs/RateLimits
+provider: Trint
+providerId: trint
+created: '2026-07-11'
+modified: '2026-07-11'
+reconciled: false
+tags:
+- Audio Transcription
+- Transcription
+- Speech-to-Text
+- Media
+- Rate Limiting
+- Quotas
+description: >-
+  Trint does not publish fixed numeric per-minute request limits for its REST
+  API. In practice, usage is governed by plan entitlements rather than a
+  documented request cap: the Starter tier enforces a hard monthly file cap
+  (reported around 7 files/month) while Advanced allows unlimited
+  transcriptions. Heavy API consumers are directed to Enterprise. List endpoints
+  such as GET /transcripts/ use limit and skip query parameters for pagination.
+notes: >-
+  Numeric per-account or per-endpoint request-rate limits are not documented as
+  of the review date. The binding constraint on non-Enterprise plans is the
+  plan's transcription/file entitlement, not a per-second API throttle. Confirm
+  any hard API rate limits directly with Trint for Enterprise agreements.
+sources:
+- https://dev.trint.com/docs/trint-api-keys
+- https://dev.trint.com/reference/page
+- https://dev.trint.com/docs/pricing
+responseCodes:
+  throttled: 429
+limits:
+- name: REST API Requests
+  scope: account
+  metric: requests
+  limit: not published
+  notes: No fixed numeric request-rate limit is documented for the REST API.
+- name: Starter File Cap
+  scope: account
+  metric: files
+  limit: ~7 files per month (verify)
+  notes: Hard monthly cap on Starter with no rollover; effectively bounds transcription throughput.
+- name: Advanced Transcription
+  scope: account
+  metric: files
+  limit: unlimited (per plan terms)
+  notes: Advanced allows unlimited transcriptions; heavy API usage is directed to Enterprise.
+- name: List Pagination
+  scope: endpoint
+  metric: items
+  limit: limit + skip query params
+  notes: GET /transcripts/ paginates via ?limit=&skip= (documented example limit=100).
+policies:
+- name: Backoff Strategy
+  description: Clients should implement exponential backoff with jitter and honor Retry-After on any 429 responses.
+- name: Plan-Governed Usage
+  description: Effective throughput is bounded by the subscription's file/transcription entitlement rather than a per-second request cap.
+- name: Webhook-Driven Polling Reduction
+  description: Register webhooks (TRANSCRIPT_COMPLETE, etc.) instead of polling transcript status to reduce request volume.
+maintainers:
+- FN: Kin Lane
+  email: kin@apievangelist.com

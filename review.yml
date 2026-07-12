@@ -1,0 +1,116 @@
+aid: trint
+name: Trint
+review:
+  question: Does Trint expose a documented public WebSocket API?
+  answer: false
+  date: '2026-07-11'
+  reviewer: API Evangelist
+  asyncapiSpecCreated: false
+  asyncapiScopeNote: |
+    No AsyncAPI document was authored. Trint's own public API is
+    request/response REST over HTTPS (base https://api.trint.com, EU
+    https://api.eu.trint.com, with direct uploads to https://upload.trint.com).
+    There is no server-push messaging transport (WebSocket or SSE) on Trint's
+    own API to model. Trint delivers asynchronous completion notifications via
+    HTTP webhook callbacks (POST to a URL you register), and realtime/live
+    transcription is ingested over RTMP - a media streaming protocol - rather
+    than an application-level WebSocket messaging API. Webhook callbacks and
+    RTMP media ingest are out of scope for a Trint AsyncAPI document.
+findings:
+  summary: |
+    Trint does not publish a documented public WebSocket API. Trint is an AI
+    audio/video transcription platform. Its documented developer API
+    (dev.trint.com) is REST over HTTPS with a base URL of
+    https://api.trint.com (US) or https://api.eu.trint.com (EU Enterprise
+    data residency); media is uploaded directly to the separate host
+    https://upload.trint.com. Authentication is HTTP Basic using an API Key ID
+    (username) and API Key Secret (password), Base64-encoded in the
+    Authorization header; a legacy `api-key` header is also supported.
+    Asynchronous events (transcription complete, media transfer complete, etc.)
+    are delivered by HTTP webhook callbacks, not a WebSocket. Live/realtime
+    transcription is ingested over an RTMP stream (an RTMP URL and stream key
+    are generated), which is media streaming rather than a bidirectional
+    WebSocket messaging API. No ws:// or wss:// endpoint is documented anywhere
+    on Trint's API as of the review date.
+  accessModel: |
+    The Trint API is available on paid plans; Trint's docs state the API is
+    "accessible on many of our plans" and recommend an Enterprise account for
+    heavy usage. Enterprise adds SSO (SAML), SCIM provisioning, EU data
+    residency, and full API access. There is no permanent free plan (a trial is
+    offered).
+  transports:
+    - protocol: REST
+      scheme: https
+      baseURL: https://api.trint.com
+      documented: true
+      note: Main REST API. EU tenant base is https://api.eu.trint.com.
+    - protocol: REST (upload)
+      scheme: https
+      baseURL: https://upload.trint.com
+      documented: true
+      note: Direct binary media upload via POST to https://upload.trint.com.
+    - protocol: Webhook
+      scheme: https
+      documented: true
+      note: Trint POSTs lifecycle events (TRANSCRIPT_COMPLETE, etc.) to a registered URL. Server-to-endpoint HTTP, not WebSocket.
+    - protocol: RTMP
+      scheme: rtmp
+      documented: true
+      note: Realtime/live transcription ingests media over an RTMP stream (generated stream key/URL). Media streaming, not a WebSocket messaging API.
+    - protocol: WebSocket
+      scheme: wss
+      documented: false
+      note: No WebSocket endpoint is documented anywhere in Trint's developer docs or API reference as of the review date.
+  endpointsConfirmed:
+    - POST   https://upload.trint.com/ (upload and transcribe)
+    - GET    https://api.trint.com/transcripts/ (list files; documented example uses ?limit=100&skip=0)
+  endpointsModeled:
+    - POST   https://api.trint.com/ingest
+    - GET    https://api.trint.com/ingest/status
+    - GET    https://api.trint.com/transcripts/{id}
+    - GET    https://api.trint.com/folders
+    - POST   https://api.trint.com/folders
+    - GET    https://api.trint.com/shared-drives
+    - GET    https://api.trint.com/export/{id}
+    - GET    https://api.trint.com/captions/{id}
+    - GET    https://api.trint.com/translation-languages
+    - POST   https://api.trint.com/translations
+    - GET    https://api.trint.com/translations/{fileId}
+    - POST   https://api.trint.com/realtime/stream
+    - POST   https://api.trint.com/realtime/{id}/start
+    - POST   https://api.trint.com/realtime/{id}/stop
+    - GET    https://api.trint.com/realtime/{id}/status
+    - POST   https://api.trint.com/webhooks/register
+    - DELETE https://api.trint.com/webhooks/{id}
+    - GET    https://api.trint.com/webhook-events
+sources:
+  - url: https://dev.trint.com/
+    type: Documentation
+    note: Trint API Developer Hub. Guides for uploading, exporting, webhooks, translations, US vs EU tenant, SCIM.
+  - url: https://dev.trint.com/reference/upload
+    type: APIReference
+    note: Upload and Transcribe - POST to https://upload.trint.com with query params (filename, language, detect-speaker-change, etc.).
+  - url: https://dev.trint.com/reference/page
+    type: APIReference
+    note: List Files - GET https://api.trint.com/transcripts/ returns files for the user or a shared drive.
+  - url: https://dev.trint.com/docs/trint-api-keys
+    type: Documentation
+    note: Authentication - HTTP Basic (API Key ID + Secret, Base64) or legacy api-key header. Base URL https://api.trint.com, EU https://api.eu.trint.com.
+  - url: https://dev.trint.com/docs/exporting-files-from-trint
+    type: Documentation
+    note: Export formats - JSON, text, CSV, Word (.docx), SubRip (.srt), EDL, Premiere XML.
+  - url: https://dev.trint.com/llms.txt
+    type: Documentation
+    note: Machine-readable index of docs and endpoints (ingest, files, folders, translations, realtime RTMP, webhooks, webhook event types).
+  - url: https://dev.trint.com/docs/pricing
+    type: Documentation
+    note: API is accessible on many plans; Enterprise advised for heavy usage.
+actions:
+  asyncapiPath: null
+  apisYmlUpdated: true
+  reason: |
+    No WebSocket protocol surface exists. Trint's own public API is
+    request/response REST (api.trint.com plus the upload.trint.com upload host).
+    Asynchronous notifications are HTTP webhook callbacks and realtime ingest is
+    RTMP media streaming - neither is a WebSocket or an application-level
+    server-push messaging transport - so no AsyncAPI document was created.

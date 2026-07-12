@@ -1,0 +1,118 @@
+specification: API Commons Plans
+specificationVersion: '0.1'
+schema: https://raw.githubusercontent.com/api-evangelist/interface-research/main/schema/api-commons.yml#/$defs/Plans
+provider: Trint
+providerId: trint
+created: '2026-07-11'
+modified: '2026-07-11'
+reconciled: false
+tags:
+- Audio Transcription
+- Transcription
+- Speech-to-Text
+- Media
+- Plans
+description: >-
+  Trint sells per-seat subscription plans for its AI transcription platform,
+  typically billed annually. Published tiers are Starter, Advanced, and
+  Enterprise. Starter is an entry tier with a hard monthly file cap; Advanced is
+  the unlimited-transcription tier with collaboration and translation;
+  Enterprise adds SSO (SAML), SCIM provisioning, audit logs, custom data
+  retention, EU data residency, and full API access. Trint's developer docs
+  state the API is accessible on many plans, but recommend an Enterprise account
+  for heavy API usage. There is no permanent free plan (a trial is offered).
+notes: >-
+  Prices below are approximate list figures reported by third-party pricing
+  reviews (roughly $80/seat/month Starter, $100/seat/month Advanced, custom
+  Enterprise) and should be verified on app.trint.com/plans during
+  reconciliation. Exact per-seat rates, the Starter file cap, and which non-
+  Enterprise tiers include API keys can change; treat the API-access gating as
+  plan-dependent and confirm with Trint.
+sources:
+- https://trint.com/
+- https://app.trint.com/plans
+- https://dev.trint.com/docs/pricing
+- https://dev.trint.com/docs/trint-api-keys
+plans:
+- id: trint-starter
+  name: Starter
+  type: paid
+  description: >-
+    Entry per-seat tier for individuals, with a hard monthly cap on the number
+    of files that can be transcribed (reported around 7 files/month, no
+    rollover). Single user.
+  entries:
+  - label: Per Seat
+    name: starter_seat
+    type: flat
+    metric: seat
+    limit: -1
+    timeFrame: month
+    geo: global
+    unit: 1
+    price: approximately 80 USD per seat per month (verify; usually billed annually)
+    userMultiplied: true
+  - label: Included Files
+    name: starter_files
+    type: usage
+    metric: files
+    limit: 7
+    timeFrame: month
+    geo: global
+    unit: 1
+    price: included up to the monthly file cap (no rollover)
+    userMultiplied: false
+  elements:
+  - name: AI Transcription
+  - name: Collaborative Editor
+  - name: API Access (plan-dependent - verify)
+- id: trint-advanced
+  name: Advanced
+  type: paid
+  description: >-
+    Per-seat tier with unlimited transcriptions, team collaboration (shared
+    workspaces, role-based permissions), and translation into dozens of
+    languages.
+  entries:
+  - label: Per Seat
+    name: advanced_seat
+    type: flat
+    metric: seat
+    limit: -1
+    timeFrame: month
+    geo: global
+    unit: 1
+    price: approximately 100 USD per seat per month (verify; usually billed annually)
+    userMultiplied: true
+  elements:
+  - name: Unlimited Transcription
+  - name: Shared Workspaces
+  - name: Translation (50+ languages)
+  - name: API Access (plan-dependent - verify)
+- id: trint-enterprise
+  name: Enterprise
+  type: enterprise
+  description: >-
+    Custom plan with SSO (SAML), SCIM provisioning, audit logs, custom data
+    retention, EU data residency (api.eu.trint.com), and full API access.
+    Recommended by Trint for heavy API usage.
+  entries:
+  - label: Enterprise Agreement
+    name: enterprise
+    type: flat
+    metric: contract
+    limit: -1
+    timeFrame: year
+    geo: global
+    unit: 1
+    price: contact sales
+    userMultiplied: false
+  elements:
+  - name: Full API Access
+  - name: SSO (SAML) and SCIM
+  - name: EU Data Residency
+  - name: Audit Logs and Custom Retention
+  - name: Custom Volume Pricing and SLAs
+maintainers:
+- FN: Kin Lane
+  email: kin@apievangelist.com
