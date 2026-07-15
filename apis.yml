@@ -166,6 +166,8 @@ apis:
     MEDIA_TRANSFER_FAILED, TRANSCRIPT_COMPLETE, TRANSCRIPT_FAILED - to your URL
     as ordinary HTTP callbacks, not over a WebSocket.
 common:
+- type: AgenticAccess
+  url: agentic-access/trint-agentic-access.yml
 - type: Authentication
   url: authentication/trint-authentication.yml
 - type: LinkedIn
