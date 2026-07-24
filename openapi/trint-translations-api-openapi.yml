@@ -1,0 +1,153 @@
+openapi: 3.0.3
+info:
+  title: Trint Export Translations API
+  description: 'The Trint API provides programmatic access to Trint''s AI audio and video transcription platform. You can upload media for automatic speech-to-text transcription, ingest media asynchronously from a source URL, list and organize transcripts (files), folders, and shared drives, export transcripts in a range of formats (JSON, plain text, CSV, Microsoft Word .docx, SubRip .srt captions, Edit Decision List .edl, and Premiere XML), translate transcripts into dozens of languages, run live/realtime transcription via an RTMP stream, and register webhooks to be notified when transcription completes.
+
+    Base URL is https://api.trint.com for the US tenant and https://api.eu.trint.com for EU (data-residency) Enterprise accounts. Direct media uploads go to the separate host https://upload.trint.com. API access is available on paid plans and is recommended on Enterprise for heavy usage.
+
+    GROUNDING NOTE: The upload endpoint (https://upload.trint.com), the list endpoint GET /transcripts/, authentication, the export formats, the realtime RTMP flow, and the webhook event types are grounded in Trint''s public developer docs at https://dev.trint.com. Some exact resource paths for exports, files/folders, translations, and realtime are modeled from Trint''s documented capability index (https://dev.trint.com/llms.txt) where the individual reference pages were not machine-readable at authoring time; those operations are marked with `x-modeled: true`.'
+  version: '1.0'
+  contact:
+    name: Trint Developer Hub
+    url: https://dev.trint.com
+  license:
+    name: Proprietary
+    url: https://trint.com/terms
+servers:
+- url: https://api.trint.com
+  description: US tenant (default)
+- url: https://api.eu.trint.com
+  description: EU tenant (Enterprise data residency)
+- url: https://upload.trint.com
+  description: Direct media upload host
+security:
+- basicAuth: []
+- legacyApiKey: []
+tags:
+- name: Translations
+  description: Translate transcripts into other languages.
+paths:
+  /translation-languages:
+    get:
+      operationId: listTranslationLanguages
+      tags:
+      - Translations
+      summary: List supported translation languages
+      description: Returns the language codes Trint can translate transcripts into.
+      x-modeled: true
+      responses:
+        '200':
+          description: Supported language codes.
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: string
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+  /translations:
+    post:
+      operationId: createTranslation
+      tags:
+      - Translations
+      summary: Create a translation
+      description: Requests a translation of a transcript into a target language.
+      x-modeled: true
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/TranslationInput'
+      responses:
+        '200':
+          description: The created translation job.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Translation'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+  /translations/{fileId}:
+    parameters:
+    - name: fileId
+      in: path
+      required: true
+      description: The transcript (file) ID.
+      schema:
+        type: string
+    get:
+      operationId: getTranslations
+      tags:
+      - Translations
+      summary: Get translations for a transcript
+      description: Retrieves translations associated with a transcript.
+      x-modeled: true
+      responses:
+        '200':
+          description: Translations for the transcript.
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Translation'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '404':
+          $ref: '#/components/responses/NotFound'
+components:
+  schemas:
+    TranslationInput:
+      type: object
+      required:
+      - fileId
+      - language
+      properties:
+        fileId:
+          type: string
+        language:
+          type: string
+          description: Target language code.
+    Translation:
+      type: object
+      properties:
+        id:
+          type: string
+        fileId:
+          type: string
+        language:
+          type: string
+        status:
+          type: string
+    Error:
+      type: object
+      properties:
+        message:
+          type: string
+        code:
+          type: string
+  responses:
+    Unauthorized:
+      description: Missing or invalid credentials.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+    NotFound:
+      description: The requested resource was not found.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+  securitySchemes:
+    basicAuth:
+      type: http
+      scheme: basic
+      description: HTTP Basic authentication using the API Key ID as the username and the API Key Secret as the password, sent as a Base64-encoded `Authorization` header. Recommended.
+    legacyApiKey:
+      type: apiKey
+      in: header
+      name: api-key
+      description: Legacy authentication. The legacy key value is sent in the `api-key` request header.

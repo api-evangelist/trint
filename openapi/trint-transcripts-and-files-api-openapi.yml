@@ -1,0 +1,222 @@
+openapi: 3.0.3
+info:
+  title: Trint Export Transcripts and Files API
+  description: 'The Trint API provides programmatic access to Trint''s AI audio and video transcription platform. You can upload media for automatic speech-to-text transcription, ingest media asynchronously from a source URL, list and organize transcripts (files), folders, and shared drives, export transcripts in a range of formats (JSON, plain text, CSV, Microsoft Word .docx, SubRip .srt captions, Edit Decision List .edl, and Premiere XML), translate transcripts into dozens of languages, run live/realtime transcription via an RTMP stream, and register webhooks to be notified when transcription completes.
+
+    Base URL is https://api.trint.com for the US tenant and https://api.eu.trint.com for EU (data-residency) Enterprise accounts. Direct media uploads go to the separate host https://upload.trint.com. API access is available on paid plans and is recommended on Enterprise for heavy usage.
+
+    GROUNDING NOTE: The upload endpoint (https://upload.trint.com), the list endpoint GET /transcripts/, authentication, the export formats, the realtime RTMP flow, and the webhook event types are grounded in Trint''s public developer docs at https://dev.trint.com. Some exact resource paths for exports, files/folders, translations, and realtime are modeled from Trint''s documented capability index (https://dev.trint.com/llms.txt) where the individual reference pages were not machine-readable at authoring time; those operations are marked with `x-modeled: true`.'
+  version: '1.0'
+  contact:
+    name: Trint Developer Hub
+    url: https://dev.trint.com
+  license:
+    name: Proprietary
+    url: https://trint.com/terms
+servers:
+- url: https://api.trint.com
+  description: US tenant (default)
+- url: https://api.eu.trint.com
+  description: EU tenant (Enterprise data residency)
+- url: https://upload.trint.com
+  description: Direct media upload host
+security:
+- basicAuth: []
+- legacyApiKey: []
+tags:
+- name: Transcripts and Files
+  description: List and retrieve transcripts (files), folders, and shared drives.
+paths:
+  /transcripts/:
+    get:
+      operationId: listTranscripts
+      tags:
+      - Transcripts and Files
+      summary: List transcripts (files)
+      description: Returns a list of files (id, title, and metadata) belonging to the current user or accessible via a specified Shared Drive. This endpoint is confirmed against Trint's public docs, including the documented example `GET https://api.trint.com/transcripts/?limit=100&skip=0`.
+      parameters:
+      - name: limit
+        in: query
+        required: false
+        description: Maximum number of items to return.
+        schema:
+          type: integer
+          default: 100
+      - name: skip
+        in: query
+        required: false
+        description: Number of items to skip for pagination.
+        schema:
+          type: integer
+          default: 0
+      responses:
+        '200':
+          description: A list of transcripts / files.
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/TranscriptFile'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+  /transcripts/{id}:
+    parameters:
+    - $ref: '#/components/parameters/FileId'
+    get:
+      operationId: getTranscript
+      tags:
+      - Transcripts and Files
+      summary: Retrieve a transcript (file)
+      description: Retrieves a single transcript / file by its ID.
+      x-modeled: true
+      responses:
+        '200':
+          description: The requested transcript.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TranscriptFile'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '404':
+          $ref: '#/components/responses/NotFound'
+  /folders:
+    get:
+      operationId: listFolders
+      tags:
+      - Transcripts and Files
+      summary: List folders
+      description: Lists folders that organize transcripts.
+      x-modeled: true
+      responses:
+        '200':
+          description: A list of folders.
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Folder'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+    post:
+      operationId: createFolder
+      tags:
+      - Transcripts and Files
+      summary: Create a folder
+      description: Creates a new folder.
+      x-modeled: true
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/FolderInput'
+      responses:
+        '200':
+          description: The created folder.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Folder'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+  /shared-drives:
+    get:
+      operationId: listSharedDrives
+      tags:
+      - Transcripts and Files
+      summary: List shared drives (workspaces)
+      description: Lists the shared drives / workspaces accessible to the account.
+      x-modeled: true
+      responses:
+        '200':
+          description: A list of shared drives.
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/SharedDrive'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+components:
+  parameters:
+    FileId:
+      name: id
+      in: path
+      required: true
+      description: The transcript (file) or resource ID.
+      schema:
+        type: string
+  schemas:
+    Folder:
+      type: object
+      properties:
+        id:
+          type: string
+        name:
+          type: string
+    SharedDrive:
+      type: object
+      properties:
+        id:
+          type: string
+        name:
+          type: string
+    TranscriptFile:
+      type: object
+      properties:
+        id:
+          type: string
+        title:
+          type: string
+        language:
+          type: string
+        status:
+          type: string
+        duration:
+          type: number
+        created:
+          type: string
+          format: date-time
+    FolderInput:
+      type: object
+      required:
+      - name
+      properties:
+        name:
+          type: string
+        workspaceId:
+          type: string
+    Error:
+      type: object
+      properties:
+        message:
+          type: string
+        code:
+          type: string
+  responses:
+    Unauthorized:
+      description: Missing or invalid credentials.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+    NotFound:
+      description: The requested resource was not found.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+  securitySchemes:
+    basicAuth:
+      type: http
+      scheme: basic
+      description: HTTP Basic authentication using the API Key ID as the username and the API Key Secret as the password, sent as a Base64-encoded `Authorization` header. Recommended.
+    legacyApiKey:
+      type: apiKey
+      in: header
+      name: api-key
+      description: Legacy authentication. The legacy key value is sent in the `api-key` request header.

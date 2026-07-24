@@ -1,0 +1,150 @@
+openapi: 3.0.3
+info:
+  title: Trint Export Realtime API
+  description: 'The Trint API provides programmatic access to Trint''s AI audio and video transcription platform. You can upload media for automatic speech-to-text transcription, ingest media asynchronously from a source URL, list and organize transcripts (files), folders, and shared drives, export transcripts in a range of formats (JSON, plain text, CSV, Microsoft Word .docx, SubRip .srt captions, Edit Decision List .edl, and Premiere XML), translate transcripts into dozens of languages, run live/realtime transcription via an RTMP stream, and register webhooks to be notified when transcription completes.
+
+    Base URL is https://api.trint.com for the US tenant and https://api.eu.trint.com for EU (data-residency) Enterprise accounts. Direct media uploads go to the separate host https://upload.trint.com. API access is available on paid plans and is recommended on Enterprise for heavy usage.
+
+    GROUNDING NOTE: The upload endpoint (https://upload.trint.com), the list endpoint GET /transcripts/, authentication, the export formats, the realtime RTMP flow, and the webhook event types are grounded in Trint''s public developer docs at https://dev.trint.com. Some exact resource paths for exports, files/folders, translations, and realtime are modeled from Trint''s documented capability index (https://dev.trint.com/llms.txt) where the individual reference pages were not machine-readable at authoring time; those operations are marked with `x-modeled: true`.'
+  version: '1.0'
+  contact:
+    name: Trint Developer Hub
+    url: https://dev.trint.com
+  license:
+    name: Proprietary
+    url: https://trint.com/terms
+servers:
+- url: https://api.trint.com
+  description: US tenant (default)
+- url: https://api.eu.trint.com
+  description: EU tenant (Enterprise data residency)
+- url: https://upload.trint.com
+  description: Direct media upload host
+security:
+- basicAuth: []
+- legacyApiKey: []
+tags:
+- name: Realtime
+  description: Live/realtime transcription via an RTMP media stream.
+paths:
+  /realtime/stream:
+    post:
+      operationId: createRealtimeStream
+      tags:
+      - Realtime
+      summary: Create a realtime RTMP stream
+      description: Generates an RTMP stream key and URL used to push live audio/video into Trint for realtime transcription. Realtime ingest uses RTMP - a media streaming protocol - not a WebSocket. Transcription results and lifecycle are surfaced via the realtime status endpoint and webhooks.
+      x-modeled: true
+      responses:
+        '200':
+          description: RTMP stream credentials.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RealtimeStream'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+  /realtime/{id}/start:
+    parameters:
+    - $ref: '#/components/parameters/FileId'
+    post:
+      operationId: startRealtime
+      tags:
+      - Realtime
+      summary: Start realtime transcription
+      description: Begins realtime transcription for a stream.
+      x-modeled: true
+      responses:
+        '200':
+          description: Realtime transcription started.
+          content:
+            application/json:
+              schema:
+                type: object
+                additionalProperties: true
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+  /realtime/{id}/stop:
+    parameters:
+    - $ref: '#/components/parameters/FileId'
+    post:
+      operationId: stopRealtime
+      tags:
+      - Realtime
+      summary: Stop realtime transcription
+      description: Stops realtime transcription for a stream.
+      x-modeled: true
+      responses:
+        '200':
+          description: Realtime transcription stopped.
+          content:
+            application/json:
+              schema:
+                type: object
+                additionalProperties: true
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+  /realtime/{id}/status:
+    parameters:
+    - $ref: '#/components/parameters/FileId'
+    get:
+      operationId: getRealtimeStatus
+      tags:
+      - Realtime
+      summary: Get realtime status
+      description: Returns the current status of a realtime transcription stream.
+      x-modeled: true
+      responses:
+        '200':
+          description: Realtime status.
+          content:
+            application/json:
+              schema:
+                type: object
+                additionalProperties: true
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+components:
+  parameters:
+    FileId:
+      name: id
+      in: path
+      required: true
+      description: The transcript (file) or resource ID.
+      schema:
+        type: string
+  responses:
+    Unauthorized:
+      description: Missing or invalid credentials.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+  schemas:
+    Error:
+      type: object
+      properties:
+        message:
+          type: string
+        code:
+          type: string
+    RealtimeStream:
+      type: object
+      properties:
+        id:
+          type: string
+        rtmpUrl:
+          type: string
+          description: RTMP ingest URL.
+        streamKey:
+          type: string
+  securitySchemes:
+    basicAuth:
+      type: http
+      scheme: basic
+      description: HTTP Basic authentication using the API Key ID as the username and the API Key Secret as the password, sent as a Base64-encoded `Authorization` header. Recommended.
+    legacyApiKey:
+      type: apiKey
+      in: header
+      name: api-key
+      description: Legacy authentication. The legacy key value is sent in the `api-key` request header.

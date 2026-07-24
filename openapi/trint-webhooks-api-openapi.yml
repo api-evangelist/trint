@@ -1,0 +1,158 @@
+openapi: 3.0.3
+info:
+  title: Trint Export Webhooks API
+  description: 'The Trint API provides programmatic access to Trint''s AI audio and video transcription platform. You can upload media for automatic speech-to-text transcription, ingest media asynchronously from a source URL, list and organize transcripts (files), folders, and shared drives, export transcripts in a range of formats (JSON, plain text, CSV, Microsoft Word .docx, SubRip .srt captions, Edit Decision List .edl, and Premiere XML), translate transcripts into dozens of languages, run live/realtime transcription via an RTMP stream, and register webhooks to be notified when transcription completes.
+
+    Base URL is https://api.trint.com for the US tenant and https://api.eu.trint.com for EU (data-residency) Enterprise accounts. Direct media uploads go to the separate host https://upload.trint.com. API access is available on paid plans and is recommended on Enterprise for heavy usage.
+
+    GROUNDING NOTE: The upload endpoint (https://upload.trint.com), the list endpoint GET /transcripts/, authentication, the export formats, the realtime RTMP flow, and the webhook event types are grounded in Trint''s public developer docs at https://dev.trint.com. Some exact resource paths for exports, files/folders, translations, and realtime are modeled from Trint''s documented capability index (https://dev.trint.com/llms.txt) where the individual reference pages were not machine-readable at authoring time; those operations are marked with `x-modeled: true`.'
+  version: '1.0'
+  contact:
+    name: Trint Developer Hub
+    url: https://dev.trint.com
+  license:
+    name: Proprietary
+    url: https://trint.com/terms
+servers:
+- url: https://api.trint.com
+  description: US tenant (default)
+- url: https://api.eu.trint.com
+  description: EU tenant (Enterprise data residency)
+- url: https://upload.trint.com
+  description: Direct media upload host
+security:
+- basicAuth: []
+- legacyApiKey: []
+tags:
+- name: Webhooks
+  description: Register callbacks for transcription lifecycle events.
+paths:
+  /webhooks/register:
+    post:
+      operationId: registerWebhook
+      tags:
+      - Webhooks
+      summary: Register a webhook
+      description: Registers a webhook endpoint that Trint will POST lifecycle events to, such as TRANSCRIPT_COMPLETE. Webhooks are ordinary HTTP callbacks, not a WebSocket connection.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/WebhookInput'
+      responses:
+        '200':
+          description: The registered webhook.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Webhook'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+  /webhooks/{id}:
+    parameters:
+    - $ref: '#/components/parameters/FileId'
+    delete:
+      operationId: deleteWebhook
+      tags:
+      - Webhooks
+      summary: De-register a webhook
+      description: Removes a previously registered webhook.
+      responses:
+        '200':
+          description: Webhook removed.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  deleted:
+                    type: boolean
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '404':
+          $ref: '#/components/responses/NotFound'
+  /webhook-events:
+    get:
+      operationId: listWebhookEvents
+      tags:
+      - Webhooks
+      summary: List webhook event types
+      description: Lists the event types Trint can emit - ACTIVITY_STARTED, MEDIA_TRANSFER_COMPLETE, MEDIA_TRANSFER_FAILED, TRANSCRIPT_COMPLETE, and TRANSCRIPT_FAILED.
+      responses:
+        '200':
+          description: A list of event type names.
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: string
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+components:
+  parameters:
+    FileId:
+      name: id
+      in: path
+      required: true
+      description: The transcript (file) or resource ID.
+      schema:
+        type: string
+  schemas:
+    WebhookInput:
+      type: object
+      required:
+      - url
+      properties:
+        url:
+          type: string
+          format: uri
+          description: The endpoint Trint will POST events to.
+        events:
+          type: array
+          items:
+            type: string
+            enum:
+            - ACTIVITY_STARTED
+            - MEDIA_TRANSFER_COMPLETE
+            - MEDIA_TRANSFER_FAILED
+            - TRANSCRIPT_COMPLETE
+            - TRANSCRIPT_FAILED
+    Webhook:
+      allOf:
+      - $ref: '#/components/schemas/WebhookInput'
+      - type: object
+        properties:
+          id:
+            type: string
+    Error:
+      type: object
+      properties:
+        message:
+          type: string
+        code:
+          type: string
+  responses:
+    Unauthorized:
+      description: Missing or invalid credentials.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+    NotFound:
+      description: The requested resource was not found.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+  securitySchemes:
+    basicAuth:
+      type: http
+      scheme: basic
+      description: HTTP Basic authentication using the API Key ID as the username and the API Key Secret as the password, sent as a Base64-encoded `Authorization` header. Recommended.
+    legacyApiKey:
+      type: apiKey
+      in: header
+      name: api-key
+      description: Legacy authentication. The legacy key value is sent in the `api-key` request header.
