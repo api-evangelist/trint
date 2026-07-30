@@ -10,7 +10,20 @@ description: >-
   uploading and transcribing media, listing and exporting transcripts (JSON,
   text, CSV, Word, SRT captions, EDL, Premiere XML), translating, running
   realtime transcription over an RTMP stream, and receiving webhook events.
-image: https://kinlane-images.s3.amazonaws.com/shared/apis-json/apis-json-logo.jpg
+accessModel:
+  pricing: paid
+  onboarding: self-serve
+  trial: false
+  try_now: false
+  public: false
+  label: Paid · Self-serve signup
+  confidence: high
+  source:
+  - plans
+  - authentication
+  generated: '2026-07-22'
+  method: derived
+image: https://kinlane-images.s3.amazonaws.com/shared/apis-json/icons/trint.png
 tags:
 - Audio Transcription
 - Transcription
@@ -23,148 +36,162 @@ created: '2026-07-11'
 modified: '2026-07-11'
 specificationVersion: '0.19'
 apis:
-- aid: trint:trint-upload-transcribe-api
-  name: Trint Upload and Transcribe API
-  tags:
-  - Audio Transcription
-  - Speech-to-Text
-  - Upload
-  image: https://kinlane-images.s3.amazonaws.com/shared/apis-json/apis-json-logo.jpg
-  humanURL: https://dev.trint.com/reference/upload
-  baseURL: https://upload.trint.com
-  properties:
-  - url: https://dev.trint.com/docs/uploading-files-to-trint
-    type: Documentation
-  - url: https://dev.trint.com/reference/upload
-    type: APIReference
-  - url: openapi/trint-openapi.yml
-    type: OpenAPI
-  - url: collections/trint.postman_collection.json
-    type: PostmanCollection
-  - url: collections/trint.opencollection.json
-    type: OpenCollection
-  description: >-
-    Upload a media file directly to Trint (POST to https://upload.trint.com) or
-    ingest asynchronously from a source URL to start automatic speech-to-text
-    transcription, with options for language, speaker diarization, custom
-    dictionary, folder, and workspace. Supports MP4, MOV, WAV, MP3, and more.
-- aid: trint:trint-transcripts-api
-  name: Trint Transcripts and Files API
-  tags:
-  - Transcription
-  - Files
-  - Media
-  image: https://kinlane-images.s3.amazonaws.com/shared/apis-json/apis-json-logo.jpg
-  humanURL: https://dev.trint.com/reference/page
-  baseURL: https://api.trint.com
-  properties:
-  - url: https://dev.trint.com/docs/trint-api-keys
-    type: Documentation
-  - url: https://dev.trint.com/reference/page
-    type: APIReference
-  - url: openapi/trint-openapi.yml
-    type: OpenAPI
-  - url: collections/trint.postman_collection.json
-    type: PostmanCollection
-  - url: collections/trint.opencollection.json
-    type: OpenCollection
-  description: >-
-    List and retrieve transcripts (files), folders, and shared drives. The list
-    endpoint GET https://api.trint.com/transcripts/ (with limit and skip
-    pagination) is confirmed in Trint's public docs; it returns files belonging
-    to the current user or accessible via a shared drive.
 - aid: trint:trint-export-api
   name: Trint Export API
+  description: Export transcripts and captions in various formats.
+  humanURL: https://dev.trint.com/reference/upload
+  baseURL: https://upload.trint.com
   tags:
   - Export
-  - Captions
-  - Media
-  image: https://kinlane-images.s3.amazonaws.com/shared/apis-json/apis-json-logo.jpg
-  humanURL: https://dev.trint.com/docs/exporting-files-from-trint
-  baseURL: https://api.trint.com
   properties:
-  - url: https://dev.trint.com/docs/exporting-files-from-trint
-    type: Documentation
-  - url: openapi/trint-openapi.yml
-    type: OpenAPI
-  - url: collections/trint.postman_collection.json
-    type: PostmanCollection
-  - url: collections/trint.opencollection.json
-    type: OpenCollection
-  description: >-
-    Export transcripts and captions in multiple formats - JSON, plain text, CSV,
-    Microsoft Word (.docx), SubRip captions (.srt), Edit Decision List (.edl),
-    and Premiere XML. Export formats are grounded in Trint's public export docs;
-    exact request paths are honestly modeled.
-- aid: trint:trint-translations-api
-  name: Trint Translations API
-  tags:
-  - Translation
-  - Localization
-  - Media
-  image: https://kinlane-images.s3.amazonaws.com/shared/apis-json/apis-json-logo.jpg
-  humanURL: https://dev.trint.com
-  baseURL: https://api.trint.com
-  properties:
-  - url: https://dev.trint.com
-    type: Documentation
-  - url: openapi/trint-openapi.yml
-    type: OpenAPI
-  - url: collections/trint.postman_collection.json
-    type: PostmanCollection
-  - url: collections/trint.opencollection.json
-    type: OpenCollection
-  description: >-
-    List supported translation languages, create translations of a transcript
-    into a target language, and retrieve translations for a file. Trint markets
-    translation into dozens of languages; endpoint paths here are modeled from
-    the documented capability index.
-- aid: trint:trint-realtime-transcription-api
-  name: Trint Realtime Transcription API
+  - type: OpenAPI
+    url: openapi/trint-export-api-openapi.yml
+  - type: Documentation
+    url: https://dev.trint.com/docs/uploading-files-to-trint
+  - type: APIReference
+    url: https://dev.trint.com/reference/upload
+  - type: PostmanCollection
+    url: collections/trint.postman_collection.json
+  - type: OpenCollection
+    url: collections/trint.opencollection.json
+  - type: Documentation
+    url: https://dev.trint.com/docs/trint-api-keys
+  - type: APIReference
+    url: https://dev.trint.com/reference/page
+  - type: Documentation
+    url: https://dev.trint.com/docs/exporting-files-from-trint
+  - type: Documentation
+    url: https://dev.trint.com
+- aid: trint:trint-realtime-api
+  name: Trint Realtime API
+  description: Live/realtime transcription via an RTMP media stream.
+  humanURL: https://dev.trint.com/reference/upload
+  baseURL: https://upload.trint.com
   tags:
   - Realtime
-  - Live Transcription
-  - RTMP
-  image: https://kinlane-images.s3.amazonaws.com/shared/apis-json/apis-json-logo.jpg
-  humanURL: https://dev.trint.com
-  baseURL: https://api.trint.com
   properties:
-  - url: https://dev.trint.com
-    type: Documentation
-  - url: openapi/trint-openapi.yml
-    type: OpenAPI
-  - url: collections/trint.postman_collection.json
-    type: PostmanCollection
-  - url: collections/trint.opencollection.json
-    type: OpenCollection
-  description: >-
-    Run live transcription by generating an RTMP stream key/URL and starting,
-    stopping, and polling the status of a realtime stream. Realtime media
-    ingest uses RTMP, a media streaming protocol - not a WebSocket. Results and
-    lifecycle are surfaced via status polling and webhooks.
+  - type: OpenAPI
+    url: openapi/trint-realtime-api-openapi.yml
+  - type: Documentation
+    url: https://dev.trint.com/docs/uploading-files-to-trint
+  - type: APIReference
+    url: https://dev.trint.com/reference/upload
+  - type: PostmanCollection
+    url: collections/trint.postman_collection.json
+  - type: OpenCollection
+    url: collections/trint.opencollection.json
+  - type: Documentation
+    url: https://dev.trint.com/docs/trint-api-keys
+  - type: APIReference
+    url: https://dev.trint.com/reference/page
+  - type: Documentation
+    url: https://dev.trint.com/docs/exporting-files-from-trint
+  - type: Documentation
+    url: https://dev.trint.com
+- aid: trint:trint-transcripts-and-files-api
+  name: Trint Transcripts and Files API
+  description: List and retrieve transcripts (files), folders, and shared drives.
+  humanURL: https://dev.trint.com/reference/upload
+  baseURL: https://upload.trint.com
+  tags:
+  - Transcripts and Files
+  properties:
+  - type: OpenAPI
+    url: openapi/trint-transcripts-and-files-api-openapi.yml
+  - type: Documentation
+    url: https://dev.trint.com/docs/uploading-files-to-trint
+  - type: APIReference
+    url: https://dev.trint.com/reference/upload
+  - type: PostmanCollection
+    url: collections/trint.postman_collection.json
+  - type: OpenCollection
+    url: collections/trint.opencollection.json
+  - type: Documentation
+    url: https://dev.trint.com/docs/trint-api-keys
+  - type: APIReference
+    url: https://dev.trint.com/reference/page
+  - type: Documentation
+    url: https://dev.trint.com/docs/exporting-files-from-trint
+  - type: Documentation
+    url: https://dev.trint.com
+- aid: trint:trint-translations-api
+  name: Trint Translations API
+  description: Translate transcripts into other languages.
+  humanURL: https://dev.trint.com/reference/upload
+  baseURL: https://upload.trint.com
+  tags:
+  - Translations
+  properties:
+  - type: OpenAPI
+    url: openapi/trint-translations-api-openapi.yml
+  - type: Documentation
+    url: https://dev.trint.com/docs/uploading-files-to-trint
+  - type: APIReference
+    url: https://dev.trint.com/reference/upload
+  - type: PostmanCollection
+    url: collections/trint.postman_collection.json
+  - type: OpenCollection
+    url: collections/trint.opencollection.json
+  - type: Documentation
+    url: https://dev.trint.com/docs/trint-api-keys
+  - type: APIReference
+    url: https://dev.trint.com/reference/page
+  - type: Documentation
+    url: https://dev.trint.com/docs/exporting-files-from-trint
+  - type: Documentation
+    url: https://dev.trint.com
+- aid: trint:trint-upload-and-transcribe-api
+  name: Trint Upload and Transcribe API
+  description: Upload or ingest media and start automatic transcription.
+  humanURL: https://dev.trint.com/reference/upload
+  baseURL: https://upload.trint.com
+  tags:
+  - Upload and Transcribe
+  properties:
+  - type: OpenAPI
+    url: openapi/trint-upload-and-transcribe-api-openapi.yml
+  - type: Documentation
+    url: https://dev.trint.com/docs/uploading-files-to-trint
+  - type: APIReference
+    url: https://dev.trint.com/reference/upload
+  - type: PostmanCollection
+    url: collections/trint.postman_collection.json
+  - type: OpenCollection
+    url: collections/trint.opencollection.json
+  - type: Documentation
+    url: https://dev.trint.com/docs/trint-api-keys
+  - type: APIReference
+    url: https://dev.trint.com/reference/page
+  - type: Documentation
+    url: https://dev.trint.com/docs/exporting-files-from-trint
+  - type: Documentation
+    url: https://dev.trint.com
 - aid: trint:trint-webhooks-api
   name: Trint Webhooks API
+  description: Register callbacks for transcription lifecycle events.
+  humanURL: https://dev.trint.com/reference/upload
+  baseURL: https://upload.trint.com
   tags:
   - Webhooks
-  - Events
-  - Callbacks
-  image: https://kinlane-images.s3.amazonaws.com/shared/apis-json/apis-json-logo.jpg
-  humanURL: https://dev.trint.com
-  baseURL: https://api.trint.com
   properties:
-  - url: https://dev.trint.com
-    type: Documentation
-  - url: openapi/trint-openapi.yml
-    type: OpenAPI
-  - url: collections/trint.postman_collection.json
-    type: PostmanCollection
-  - url: collections/trint.opencollection.json
-    type: OpenCollection
-  description: >-
-    Register and de-register webhook endpoints and list event types. Trint POSTs
-    lifecycle events - ACTIVITY_STARTED, MEDIA_TRANSFER_COMPLETE,
-    MEDIA_TRANSFER_FAILED, TRANSCRIPT_COMPLETE, TRANSCRIPT_FAILED - to your URL
-    as ordinary HTTP callbacks, not over a WebSocket.
+  - type: OpenAPI
+    url: openapi/trint-webhooks-api-openapi.yml
+  - type: Documentation
+    url: https://dev.trint.com/docs/uploading-files-to-trint
+  - type: APIReference
+    url: https://dev.trint.com/reference/upload
+  - type: PostmanCollection
+    url: collections/trint.postman_collection.json
+  - type: OpenCollection
+    url: collections/trint.opencollection.json
+  - type: Documentation
+    url: https://dev.trint.com/docs/trint-api-keys
+  - type: APIReference
+    url: https://dev.trint.com/reference/page
+  - type: Documentation
+    url: https://dev.trint.com/docs/exporting-files-from-trint
+  - type: Documentation
+    url: https://dev.trint.com
 common:
 - type: AgenticAccess
   url: agentic-access/trint-agentic-access.yml
