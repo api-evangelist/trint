@@ -1,0 +1,24 @@
+{
+  "provider": "trint",
+  "sources": [
+    "trint-export-api-openapi.yml",
+    "trint-realtime-api-openapi.yml",
+    "trint-transcripts-and-files-api-openapi.yml",
+    "trint-translations-api-openapi.yml",
+    "trint-upload-and-transcribe-api-openapi.yml",
+    "trint-webhooks-api-openapi.yml"
+  ],
+  "outputs": [
+    "trint-export-api-openapi.yml",
+    "trint-realtime-api-openapi.yml",
+    "trint-transcripts-and-files-api-openapi.yml",
+    "trint-translations-api-openapi.yml",
+    "trint-upload-and-transcribe-api-openapi.yml",
+    "trint-webhooks-api-openapi.yml"
+  ],
+  "archived": [],
+  "errors": [],
+  "warnings": [],
+  "notes": [],
+  "skipped": []
+}
