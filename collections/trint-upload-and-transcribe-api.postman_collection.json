@@ -1,0 +1,600 @@
+{
+  "item": [
+    {
+      "id": "3e478d72-353d-4761-8480-2c57ffcb075b",
+      "name": "Upload and Transcribe",
+      "description": {
+        "content": "Upload or ingest media and start automatic transcription.",
+        "type": "text/plain"
+      },
+      "item": [
+        {
+          "id": "6507d60d-64b3-45df-837a-b641591254a4",
+          "name": "Upload and transcribe a media file",
+          "request": {
+            "name": "Upload and transcribe a media file",
+            "description": {
+              "content": "Uploads a media file directly to Trint as a binary payload and begins transcription immediately. Once the upload completes the file appears on the My Trints page and automatically starts transcribing. Supported formats include MP4, MOV, AVI, WAV, MP3, and others. Note the host is https://upload.trint.com, not the main api.trint.com host.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "upload"
+              ],
+              "host": [
+                "{{upload-Url}}"
+              ],
+              "query": [
+                {
+                  "disabled": false,
+                  "key": "filename",
+                  "value": "<string>",
+                  "description": "(Required) The file name to store the upload under."
+                },
+                {
+                  "disabled": false,
+                  "key": "language",
+                  "value": "<string>",
+                  "description": "Language code for transcription (for example en, es, fr)."
+                },
+                {
+                  "disabled": false,
+                  "key": "user",
+                  "value": "<string>",
+                  "description": "Username to attach the file to."
+                },
+                {
+                  "disabled": false,
+                  "key": "metadata",
+                  "value": "<string>",
+                  "description": "Arbitrary metadata echoed back on the webhook callback event."
+                },
+                {
+                  "disabled": false,
+                  "key": "detect-speaker-change",
+                  "value": "true",
+                  "description": "Enable speaker separation / diarization. Defaults to true."
+                },
+                {
+                  "disabled": false,
+                  "key": "folder-id",
+                  "value": "<string>",
+                  "description": "Destination folder ID."
+                },
+                {
+                  "disabled": false,
+                  "key": "workspace-id",
+                  "value": "<string>",
+                  "description": "Destination workspace / shared drive ID."
+                },
+                {
+                  "disabled": false,
+                  "key": "custom-dictionary",
+                  "value": "true",
+                  "description": "Apply Vocab Builder custom dictionary. Defaults to true."
+                }
+              ],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/octet-stream"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "POST",
+            "auth": null,
+            "body": {
+              "mode": "file"
+            }
+          },
+          "response": [
+            {
+              "id": "0e931efb-e2b3-49f9-85a5-5fc909cfd378",
+              "name": "Upload accepted; transcription started.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "upload"
+                  ],
+                  "host": [
+                    "{{upload-Url}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "filename",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "language",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "user",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "metadata",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "detect-speaker-change",
+                      "value": "true"
+                    },
+                    {
+                      "key": "folder-id",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "workspace-id",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "custom-dictionary",
+                      "value": "true"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: basic",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Basic <credentials>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "file"
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"trintId\": \"string\",\n  \"message\": \"string\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "59032bdc-64fa-4dff-8cb5-21c2de9306f8",
+              "name": "Missing or invalid credentials.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "upload"
+                  ],
+                  "host": [
+                    "{{upload-Url}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "filename",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "language",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "user",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "metadata",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "detect-speaker-change",
+                      "value": "true"
+                    },
+                    {
+                      "key": "folder-id",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "workspace-id",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "custom-dictionary",
+                      "value": "true"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: basic",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Basic <credentials>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "file"
+                }
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"message\": \"string\",\n  \"code\": \"string\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "4775960d-e7c5-465f-89a0-c014fc2aaa1b",
+          "name": "Asynchronously ingest media from a source URL",
+          "request": {
+            "name": "Asynchronously ingest media from a source URL",
+            "description": {
+              "content": "Submits a source media URL for asynchronous ingestion and transcription, rather than uploading the bytes directly.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "ingest"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "POST",
+            "auth": null,
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"url\": \"<uri>\",\n  \"filename\": \"<string>\",\n  \"language\": \"<string>\",\n  \"metadata\": \"<string>\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [
+            {
+              "id": "11d567b7-a3aa-47f7-95b6-80d03fdcfb7f",
+              "name": "Ingestion job accepted.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "ingest"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: basic",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Basic <credentials>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"url\": \"<uri>\",\n  \"filename\": \"<string>\",\n  \"language\": \"<string>\",\n  \"metadata\": \"<string>\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"trintId\": \"string\",\n  \"message\": \"string\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "f082469f-83cf-4029-a2f2-356d23d2db8d",
+              "name": "Missing or invalid credentials.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "ingest"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: basic",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Basic <credentials>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"url\": \"<uri>\",\n  \"filename\": \"<string>\",\n  \"language\": \"<string>\",\n  \"metadata\": \"<string>\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"message\": \"string\",\n  \"code\": \"string\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "5ea6dd66-9d1c-4966-83f3-950d76108611",
+          "name": "Get ingestion status",
+          "request": {
+            "name": "Get ingestion status",
+            "description": {
+              "content": "Returns paginated uploads or an aggregate summary grouped per ingestion status.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "ingest",
+                "status"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [
+                {
+                  "disabled": false,
+                  "key": "limit",
+                  "value": "100"
+                },
+                {
+                  "disabled": false,
+                  "key": "skip",
+                  "value": "0"
+                }
+              ],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "d68c4585-453d-4cbe-a5d9-a6cf00a847d7",
+              "name": "Ingestion status.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "ingest",
+                    "status"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "limit",
+                      "value": "100"
+                    },
+                    {
+                      "key": "skip",
+                      "value": "0"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: basic",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Basic <credentials>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"key_0\": 1668,\n  \"key_1\": true,\n  \"key_2\": false\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "8a3d4ade-4e7b-4f29-89c3-2baa9c939de3",
+              "name": "Missing or invalid credentials.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "ingest",
+                    "status"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "limit",
+                      "value": "100"
+                    },
+                    {
+                      "key": "skip",
+                      "value": "0"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: basic",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Basic <credentials>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"message\": \"string\",\n  \"code\": \"string\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        }
+      ],
+      "event": []
+    }
+  ],
+  "event": [],
+  "variable": [
+    {
+      "type": "string",
+      "value": "https://api.trint.com",
+      "key": "baseUrl"
+    },
+    {
+      "type": "string",
+      "value": "https://upload.trint.com",
+      "key": "upload-Url"
+    }
+  ],
+  "auth": {
+    "type": "basic",
+    "basic": [
+      {
+        "key": "username",
+        "value": "{{basicAuthUsername}}"
+      },
+      {
+        "key": "password",
+        "value": "{{basicAuthPassword}}"
+      }
+    ]
+  },
+  "info": {
+    "_postman_id": "4b9b12c3-a310-4400-8ea7-8ab78dbfa17f",
+    "name": "Trint Export Upload and Transcribe API",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "description": {
+      "content": "The Trint API provides programmatic access to Trint's AI audio and video transcription platform. You can upload media for automatic speech-to-text transcription, ingest media asynchronously from a source URL, list and organize transcripts (files), folders, and shared drives, export transcripts in a range of formats (JSON, plain text, CSV, Microsoft Word .docx, SubRip .srt captions, Edit Decision List .edl, and Premiere XML), translate transcripts into dozens of languages, run live/realtime transcription via an RTMP stream, and register webhooks to be notified when transcription completes.\nBase URL is https://api.trint.com for the US tenant and https://api.eu.trint.com for EU (data-residency) Enterprise accounts. Direct media uploads go to the separate host https://upload.trint.com. API access is available on paid plans and is recommended on Enterprise for heavy usage.\nGROUNDING NOTE: The upload endpoint (https://upload.trint.com), the list endpoint GET /transcripts/, authentication, the export formats, the realtime RTMP flow, and the webhook event types are grounded in Trint's public developer docs at https://dev.trint.com. Some exact resource paths for exports, files/folders, translations, and realtime are modeled from Trint's documented capability index (https://dev.trint.com/llms.txt) where the individual reference pages were not machine-readable at authoring time; those operations are marked with `x-modeled: true`.\n\nContact Support:\n Name: Trint Developer Hub",
+      "type": "text/plain"
+    }
+  }
+}

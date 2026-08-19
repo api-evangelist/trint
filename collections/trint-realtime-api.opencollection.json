@@ -1,0 +1,93 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Trint Export Realtime API",
+    "version": "1.0"
+  },
+  "request": {
+    "auth": {
+      "type": "basic",
+      "username": "{{username}}",
+      "password": "{{password}}"
+    }
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Realtime",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Create a realtime RTMP stream",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.trint.com/realtime/stream"
+          },
+          "docs": "Generates an RTMP stream key and URL used to push live audio/video into Trint for realtime transcription. Realtime ingest uses RTMP - a media streaming protocol - not a WebSocket. Transcription results and lifecycle are surfaced via the realtime status endpoint and webhooks."
+        },
+        {
+          "info": {
+            "name": "Start realtime transcription",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.trint.com/realtime/:id/start",
+            "params": [
+              {
+                "name": "id",
+                "value": "",
+                "type": "path",
+                "description": "The transcript (file) or resource ID."
+              }
+            ]
+          },
+          "docs": "Begins realtime transcription for a stream."
+        },
+        {
+          "info": {
+            "name": "Stop realtime transcription",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.trint.com/realtime/:id/stop",
+            "params": [
+              {
+                "name": "id",
+                "value": "",
+                "type": "path",
+                "description": "The transcript (file) or resource ID."
+              }
+            ]
+          },
+          "docs": "Stops realtime transcription for a stream."
+        },
+        {
+          "info": {
+            "name": "Get realtime status",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.trint.com/realtime/:id/status",
+            "params": [
+              {
+                "name": "id",
+                "value": "",
+                "type": "path",
+                "description": "The transcript (file) or resource ID."
+              }
+            ]
+          },
+          "docs": "Returns the current status of a realtime transcription stream."
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

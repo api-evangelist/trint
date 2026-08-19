@@ -1,0 +1,106 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Trint Export Transcripts and Files API",
+    "version": "1.0"
+  },
+  "request": {
+    "auth": {
+      "type": "basic",
+      "username": "{{username}}",
+      "password": "{{password}}"
+    }
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Transcripts and Files",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "List transcripts (files)",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.trint.com/transcripts/",
+            "params": [
+              {
+                "name": "limit",
+                "value": "",
+                "type": "query",
+                "description": "Maximum number of items to return."
+              },
+              {
+                "name": "skip",
+                "value": "",
+                "type": "query",
+                "description": "Number of items to skip for pagination."
+              }
+            ]
+          },
+          "docs": "Returns a list of files (id, title, and metadata) belonging to the current user or accessible via a specified Shared Drive. This endpoint is confirmed against Trint's public docs, including the documented example `GET https://api.trint.com/transcripts/?limit=100&skip=0`."
+        },
+        {
+          "info": {
+            "name": "Retrieve a transcript (file)",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.trint.com/transcripts/:id",
+            "params": [
+              {
+                "name": "id",
+                "value": "",
+                "type": "path",
+                "description": "The transcript (file) or resource ID."
+              }
+            ]
+          },
+          "docs": "Retrieves a single transcript / file by its ID."
+        },
+        {
+          "info": {
+            "name": "List folders",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.trint.com/folders"
+          },
+          "docs": "Lists folders that organize transcripts."
+        },
+        {
+          "info": {
+            "name": "Create a folder",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.trint.com/folders",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Creates a new folder."
+        },
+        {
+          "info": {
+            "name": "List shared drives (workspaces)",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.trint.com/shared-drives"
+          },
+          "docs": "Lists the shared drives / workspaces accessible to the account."
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

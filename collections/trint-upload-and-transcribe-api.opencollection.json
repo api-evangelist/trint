@@ -1,0 +1,124 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Trint Export Upload and Transcribe API",
+    "version": "1.0"
+  },
+  "request": {
+    "auth": {
+      "type": "basic",
+      "username": "{{username}}",
+      "password": "{{password}}"
+    }
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Upload and Transcribe",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Upload and transcribe a media file",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.trint.com/upload",
+            "params": [
+              {
+                "name": "filename",
+                "value": "",
+                "type": "query",
+                "description": "The file name to store the upload under."
+              },
+              {
+                "name": "language",
+                "value": "",
+                "type": "query",
+                "description": "Language code for transcription (for example en, es, fr)."
+              },
+              {
+                "name": "user",
+                "value": "",
+                "type": "query",
+                "description": "Username to attach the file to."
+              },
+              {
+                "name": "metadata",
+                "value": "",
+                "type": "query",
+                "description": "Arbitrary metadata echoed back on the webhook callback event."
+              },
+              {
+                "name": "detect-speaker-change",
+                "value": "",
+                "type": "query",
+                "description": "Enable speaker separation / diarization. Defaults to true."
+              },
+              {
+                "name": "folder-id",
+                "value": "",
+                "type": "query",
+                "description": "Destination folder ID."
+              },
+              {
+                "name": "workspace-id",
+                "value": "",
+                "type": "query",
+                "description": "Destination workspace / shared drive ID."
+              },
+              {
+                "name": "custom-dictionary",
+                "value": "",
+                "type": "query",
+                "description": "Apply Vocab Builder custom dictionary. Defaults to true."
+              }
+            ]
+          },
+          "docs": "Uploads a media file directly to Trint as a binary payload and begins transcription immediately. Once the upload completes the file appears on the My Trints page and automatically starts transcribing. Supported formats include MP4, MOV, AVI, WAV, MP3, and others. Note the host is https://upload.trint.com, not the main api.trint.com host."
+        },
+        {
+          "info": {
+            "name": "Asynchronously ingest media from a source URL",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.trint.com/ingest",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Submits a source media URL for asynchronous ingestion and transcription, rather than uploading the bytes directly."
+        },
+        {
+          "info": {
+            "name": "Get ingestion status",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.trint.com/ingest/status",
+            "params": [
+              {
+                "name": "limit",
+                "value": "",
+                "type": "query"
+              },
+              {
+                "name": "skip",
+                "value": "",
+                "type": "query"
+              }
+            ]
+          },
+          "docs": "Returns paginated uploads or an aggregate summary grouped per ingestion status."
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

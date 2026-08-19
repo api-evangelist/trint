@@ -1,0 +1,70 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Trint Export Webhooks API",
+    "version": "1.0"
+  },
+  "request": {
+    "auth": {
+      "type": "basic",
+      "username": "{{username}}",
+      "password": "{{password}}"
+    }
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Webhooks",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Register a webhook",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.trint.com/webhooks/register",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Registers a webhook endpoint that Trint will POST lifecycle events to, such as TRANSCRIPT_COMPLETE. Webhooks are ordinary HTTP callbacks, not a WebSocket connection."
+        },
+        {
+          "info": {
+            "name": "De-register a webhook",
+            "type": "http"
+          },
+          "http": {
+            "method": "DELETE",
+            "url": "https://api.trint.com/webhooks/:id",
+            "params": [
+              {
+                "name": "id",
+                "value": "",
+                "type": "path",
+                "description": "The transcript (file) or resource ID."
+              }
+            ]
+          },
+          "docs": "Removes a previously registered webhook."
+        },
+        {
+          "info": {
+            "name": "List webhook event types",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.trint.com/webhook-events"
+          },
+          "docs": "Lists the event types Trint can emit - ACTIVITY_STARTED, MEDIA_TRANSFER_COMPLETE, MEDIA_TRANSFER_FAILED, TRANSCRIPT_COMPLETE, and TRANSCRIPT_FAILED."
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

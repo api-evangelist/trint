@@ -1,0 +1,70 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Trint Export Translations API",
+    "version": "1.0"
+  },
+  "request": {
+    "auth": {
+      "type": "basic",
+      "username": "{{username}}",
+      "password": "{{password}}"
+    }
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Translations",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "List supported translation languages",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.trint.com/translation-languages"
+          },
+          "docs": "Returns the language codes Trint can translate transcripts into."
+        },
+        {
+          "info": {
+            "name": "Create a translation",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.trint.com/translations",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Requests a translation of a transcript into a target language."
+        },
+        {
+          "info": {
+            "name": "Get translations for a transcript",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.trint.com/translations/:fileId",
+            "params": [
+              {
+                "name": "fileId",
+                "value": "",
+                "type": "path",
+                "description": "The transcript (file) ID."
+              }
+            ]
+          },
+          "docs": "Retrieves translations associated with a transcript."
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

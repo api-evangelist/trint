@@ -1,0 +1,69 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Trint Export API",
+    "version": "1.0"
+  },
+  "request": {
+    "auth": {
+      "type": "basic",
+      "username": "{{username}}",
+      "password": "{{password}}"
+    }
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Export",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Export a transcript",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.trint.com/export/:id",
+            "params": [
+              {
+                "name": "id",
+                "value": "",
+                "type": "path",
+                "description": "The transcript (file) or resource ID."
+              },
+              {
+                "name": "format",
+                "value": "",
+                "type": "query",
+                "description": "The export format."
+              }
+            ]
+          },
+          "docs": "Exports a transcript in the requested format. Trint documents exporting the Transcript file type as JSON, plain text, CSV, Microsoft Word (.docx), SubRip captions (.srt), Edit Decision List (.edl), and Premiere XML. The exact request path is modeled here; the set of formats is grounded in Trint's public export documentation."
+        },
+        {
+          "info": {
+            "name": "Get captions",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.trint.com/captions/:id",
+            "params": [
+              {
+                "name": "id",
+                "value": "",
+                "type": "path",
+                "description": "The transcript (file) or resource ID."
+              }
+            ]
+          },
+          "docs": "Retrieves captions for a transcript in Trint's caption format."
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}
