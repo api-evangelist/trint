@@ -30,6 +30,14 @@ tags:
 - Speech-to-Text
 - Media
 - Journalism
+- Artificial Intelligence
+- Captions
+tags_raw:
+- Audio Transcription
+- Transcription
+- Speech-to-Text
+- Media
+- Journalism
 - AI
 - Captions
 created: '2026-07-11'
@@ -68,6 +76,8 @@ apis:
   humanURL: https://dev.trint.com/reference/upload
   baseURL: https://upload.trint.com
   tags:
+  - Real-Time
+  tags_raw:
   - Realtime
   properties:
   - type: OpenAPI
@@ -172,6 +182,8 @@ apis:
   humanURL: https://dev.trint.com/reference/upload
   baseURL: https://upload.trint.com
   tags:
+  - Webhook
+  tags_raw:
   - Webhooks
   properties:
   - type: OpenAPI
