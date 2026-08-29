@@ -10,6 +10,18 @@ description: >-
   uploading and transcribing media, listing and exporting transcripts (JSON,
   text, CSV, Word, SRT captions, EDL, Premiere XML), translating, running
   realtime transcription over an RTMP stream, and receiving webhook events.
+deliveryModel:
+  model: saas
+  open_source: false
+  commercial: true
+  callable_host: true
+  label: Hosted service · you call their endpoint
+  confidence: high
+  source:
+  - openapi
+  - pricing
+  generated: '2026-08-28'
+  method: derived
 accessModel:
   pricing: paid
   onboarding: self-serve
