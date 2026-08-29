@@ -1,0 +1,37 @@
+slug: trint
+provider: Trint
+generated_by: planning/capability-mapping/scripts/classify_capabilities.py
+model: claude-opus-5
+frame:
+- Media, Entertainment & Telecom Content
+min_confidence: 0.7
+capability_model:
+  source: https://github.com/vincentmakes/turbo-ea-capabilities
+  license: CC-BY-4.0
+  attribution: Turbo EA Capabilities by Vincent Verdet — Turbo EA, https://github.com/vincentmakes/turbo-ea-capabilities,
+    CC BY 4.0
+  notice: NOTICE
+edge_count: 2
+edges:
+- tag: Webhooks
+  spec_file: trint-webhooks-api-openapi.yml
+  capability_id: BC-4270.80
+  capability_id_l1: BC-4270
+  capability_name: Webhook & Event Subscription Management
+  confidence: 0.72
+  evidence: POST /webhooks/register registerWebhook Register a webhook; DELETE /webhooks/{id} deleteWebhook
+    De-register a webhook; GET /webhook-events listWebhookEvents List webhook event types
+  reason: The operations are purely the lifecycle of outbound event subscriptions and the enumeration
+    of event types exposed to API consumers, which matches Webhook & Event Subscription Management within
+    the developer/API ecosystem capability. It is integration plumbing rather than a media-domain capability,
+    so confidence is moderate.
+- tag: Translations
+  spec_file: trint-translations-api-openapi.yml
+  capability_id: BC-3700.60
+  capability_id_l1: BC-3700
+  capability_name: Localisation & Versioning Management
+  confidence: 0.7
+  evidence: POST /translations createTranslation Create a translation; "translate transcripts into dozens
+    of languages"
+  reason: Translation of transcripts into many languages is the localisation/versioning step that produces
+    subtitle and dubbing-script material for regional distribution.

@@ -217,6 +217,9 @@ apis:
   - type: Documentation
     url: https://dev.trint.com
 common:
+- type: CapabilityMap
+  url: capabilities/trint-capability-edges.yml
+  name: Trint Business Capability Map
 - type: AgenticAccess
   url: agentic-access/trint-agentic-access.yml
 - type: Authentication
