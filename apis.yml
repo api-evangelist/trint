@@ -142,6 +142,8 @@ apis:
   humanURL: https://dev.trint.com/reference/upload
   baseURL: https://upload.trint.com
   tags:
+  - Translation
+  tags_raw:
   - Translations
   properties:
   - type: OpenAPI
