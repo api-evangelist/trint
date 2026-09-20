@@ -10,6 +10,10 @@ provenance:
   grounding: every price_text was found verbatim in the fetched page text
 audience: business-product
 pricing_basis: per-seat
+delivery:
+  delivery: managed
+  method: keyword-prefilter
+  read: '2026-09-20'
 published: true
 note: Seat-based subscription tiers with monthly and annual prices; Business tier is quote-only. API access
   mentioned only as a Business plan feature, not priced.
