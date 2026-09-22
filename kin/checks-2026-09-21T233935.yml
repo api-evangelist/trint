@@ -2,16 +2,16 @@
 kin_checks:
   slug: trint
   schema_version: 0.22.0
-  scored_at: '2026-09-19'
-  run_ts: 2026-09-19T193153
+  scored_at: '2026-09-21'
+  run_ts: 2026-09-21T233935
   note: Actionable checks (missed + partial) in `checks`, plus the ids that did not
     apply in `na`. Everything else in rubric/scoring-0.22.0.yml was earned; counts
     below let you verify that.
   counts:
     total: 136
-    earned: 39
+    earned: 40
     partial: 5
-    missed: 66
+    missed: 65
     na: 26
   checks:
   - id: multiple_apis
@@ -92,8 +92,6 @@ kin_checks:
   - id: agent_skill_present
     status: missed
   - id: support_channel
-    status: missed
-  - id: pricing_link
     status: missed
   - id: sign_up_present
     status: missed
