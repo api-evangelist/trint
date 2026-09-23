@@ -1,0 +1,1 @@
+{"resource":"https://mcp.trint.com/mcp","authorization_servers":["https://mcp-oauth.trint.com"],"bearer_methods_supported":["header"],"scopes_supported":["https://apis.trint.com/platform/all-transitional"],"resource_name":"Trint MCP Server"}
