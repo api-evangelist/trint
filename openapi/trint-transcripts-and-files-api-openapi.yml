@@ -138,27 +138,15 @@ paths:
         '401':
           $ref: '#/components/responses/Unauthorized'
 components:
-  responses:
-    Unauthorized:
-      description: Missing or invalid credentials.
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/Error'
-    NotFound:
-      description: The requested resource was not found.
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/Error'
+  parameters:
+    FileId:
+      name: id
+      in: path
+      required: true
+      description: The transcript (file) or resource ID.
+      schema:
+        type: string
   schemas:
-    Folder:
-      type: object
-      properties:
-        id:
-          type: string
-        name:
-          type: string
     TranscriptFile:
       type: object
       properties:
@@ -175,19 +163,19 @@ components:
         created:
           type: string
           format: date-time
-    SharedDrive:
-      type: object
-      properties:
-        id:
-          type: string
-        name:
-          type: string
     Error:
       type: object
       properties:
         message:
           type: string
         code:
+          type: string
+    Folder:
+      type: object
+      properties:
+        id:
+          type: string
+        name:
           type: string
     FolderInput:
       type: object
@@ -198,14 +186,26 @@ components:
           type: string
         workspaceId:
           type: string
-  parameters:
-    FileId:
-      name: id
-      in: path
-      required: true
-      description: The transcript (file) or resource ID.
-      schema:
-        type: string
+    SharedDrive:
+      type: object
+      properties:
+        id:
+          type: string
+        name:
+          type: string
+  responses:
+    Unauthorized:
+      description: Missing or invalid credentials.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+    NotFound:
+      description: The requested resource was not found.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
   securitySchemes:
     basicAuth:
       type: http

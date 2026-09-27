@@ -95,6 +95,13 @@ paths:
           $ref: '#/components/responses/NotFound'
 components:
   schemas:
+    Error:
+      type: object
+      properties:
+        message:
+          type: string
+        code:
+          type: string
     Translation:
       type: object
       properties:
@@ -117,13 +124,6 @@ components:
         language:
           type: string
           description: Target language code.
-    Error:
-      type: object
-      properties:
-        message:
-          type: string
-        code:
-          type: string
   responses:
     Unauthorized:
       description: Missing or invalid credentials.
