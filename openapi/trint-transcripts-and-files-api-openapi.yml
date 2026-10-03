@@ -138,15 +138,37 @@ paths:
         '401':
           $ref: '#/components/responses/Unauthorized'
 components:
-  parameters:
-    FileId:
-      name: id
-      in: path
-      required: true
-      description: The transcript (file) or resource ID.
-      schema:
-        type: string
   schemas:
+    Folder:
+      type: object
+      properties:
+        id:
+          type: string
+        name:
+          type: string
+    SharedDrive:
+      type: object
+      properties:
+        id:
+          type: string
+        name:
+          type: string
+    Error:
+      type: object
+      properties:
+        message:
+          type: string
+        code:
+          type: string
+    FolderInput:
+      type: object
+      required:
+      - name
+      properties:
+        name:
+          type: string
+        workspaceId:
+          type: string
     TranscriptFile:
       type: object
       properties:
@@ -163,36 +185,14 @@ components:
         created:
           type: string
           format: date-time
-    Error:
-      type: object
-      properties:
-        message:
-          type: string
-        code:
-          type: string
-    Folder:
-      type: object
-      properties:
-        id:
-          type: string
-        name:
-          type: string
-    FolderInput:
-      type: object
-      required:
-      - name
-      properties:
-        name:
-          type: string
-        workspaceId:
-          type: string
-    SharedDrive:
-      type: object
-      properties:
-        id:
-          type: string
-        name:
-          type: string
+  parameters:
+    FileId:
+      name: id
+      in: path
+      required: true
+      description: The transcript (file) or resource ID.
+      schema:
+        type: string
   responses:
     Unauthorized:
       description: Missing or invalid credentials.

@@ -96,6 +96,20 @@ components:
       schema:
         type: string
   schemas:
+    Webhook:
+      allOf:
+      - $ref: '#/components/schemas/WebhookInput'
+      - type: object
+        properties:
+          id:
+            type: string
+    Error:
+      type: object
+      properties:
+        message:
+          type: string
+        code:
+          type: string
     WebhookInput:
       type: object
       required:
@@ -115,20 +129,6 @@ components:
             - MEDIA_TRANSFER_FAILED
             - TRANSCRIPT_COMPLETE
             - TRANSCRIPT_FAILED
-    Error:
-      type: object
-      properties:
-        message:
-          type: string
-        code:
-          type: string
-    Webhook:
-      allOf:
-      - $ref: '#/components/schemas/WebhookInput'
-      - type: object
-        properties:
-          id:
-            type: string
   responses:
     Unauthorized:
       description: Missing or invalid credentials.
