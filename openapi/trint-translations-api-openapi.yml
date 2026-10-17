@@ -95,17 +95,6 @@ paths:
           $ref: '#/components/responses/NotFound'
 components:
   schemas:
-    TranslationInput:
-      type: object
-      required:
-      - fileId
-      - language
-      properties:
-        fileId:
-          type: string
-        language:
-          type: string
-          description: Target language code.
     Translation:
       type: object
       properties:
@@ -124,6 +113,17 @@ components:
           type: string
         code:
           type: string
+    TranslationInput:
+      type: object
+      required:
+      - fileId
+      - language
+      properties:
+        fileId:
+          type: string
+        language:
+          type: string
+          description: Target language code.
   responses:
     Unauthorized:
       description: Missing or invalid credentials.

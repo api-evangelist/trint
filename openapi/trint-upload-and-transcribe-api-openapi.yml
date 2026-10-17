@@ -155,22 +155,14 @@ paths:
         '401':
           $ref: '#/components/responses/Unauthorized'
 components:
+  responses:
+    Unauthorized:
+      description: Missing or invalid credentials.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
   schemas:
-    UploadResult:
-      type: object
-      properties:
-        trintId:
-          type: string
-          description: The ID of the created transcript.
-        message:
-          type: string
-    Error:
-      type: object
-      properties:
-        message:
-          type: string
-        code:
-          type: string
     IngestInput:
       type: object
       required:
@@ -186,13 +178,21 @@ components:
           type: string
         metadata:
           type: string
-  responses:
-    Unauthorized:
-      description: Missing or invalid credentials.
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/Error'
+    UploadResult:
+      type: object
+      properties:
+        trintId:
+          type: string
+          description: The ID of the created transcript.
+        message:
+          type: string
+    Error:
+      type: object
+      properties:
+        message:
+          type: string
+        code:
+          type: string
   securitySchemes:
     basicAuth:
       type: http
